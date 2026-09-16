@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOPEZ BLOG - Tienda Oficial</title>
+    
+    <!-- Favicon (Miniatura de la pestaña) -->
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="#">
+                <img src="favicon.jpg" alt="LOPEZ BLOG Logo" class="brand-logo">
+                LOPEZ <span>BLOG</span>
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#catalogo">Catálogo</a>
+            <a href="#medios-pago">Métodos de Pago</a>
+        </nav>
+        <div class="cart-icon" id="cartBtn">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Recargas Oficiales por ID y Gift Cards</h1>
+            <p>Entrega inmediata para tus juegos favoritos y plataformas digitales en Córdobas (NIO).</p>
+            <a href="#catalogo" class="btn-primary">Ver Catálogo</a>
+        </div>
+    </section>
+
+    <section id="catalogo" class="products-section">
+        <h2 class="section-title">Catálogo Oficial</h2>
+        
+        <div class="category-filters">
+            <button class="filter-btn active" data-category="all">Todos</button>
+            <button class="filter-btn" data-category="juegos">Juegos (Player ID)</button>
+            <button class="filter-btn" data-category="streaming">Streaming & Digital</button>
+            <button class="filter-btn" data-category="tarjetas">Tarjetas de Regalo</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Carga dinámica con selector de montos oficial -->
+        </div>
+    </section>
+
+    <section id="medios-pago" class="payments-info-section">
+        <h2 class="section-title">Métodos de Pago Aceptados</h2>
+        <div class="payment-badges">
+            <div class="p-card"><i class="fa-brands fa-paypal"></i> PayPal</div>
+            <div class="p-card"><i class="fa-solid fa-building-columns"></i> Banco LA FISE</div>
+            <div class="p-card"><i class="fa-solid fa-university"></i> BANPRO</div>
+            <div class="p-card"><i class="fa-solid fa-mobile-screen-button"></i> Billetera Móvil</div>
+        </div>
+    </section>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Orden de Compra</h3>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <p class="empty-msg">El carrito está vacío.</p>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">C$ 0.00 NIO</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn" disabled>Continuar con el Pago</button>
+        </div>
+    </div>
+
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h3>Completar Orden</h3>
+            
+            <form id="orderForm" autocomplete="off">
+                <div class="form-group" id="playerFieldsGroup">
+                    <label for="playerIdInput">ID / UID del Jugador / Usuario <span class="req">*</span></label>
+                    <input type="text" id="playerIdInput" placeholder="Ej. 123456789" required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Selecciona el Método de Pago <span class="req">*</span></label>
+                    <div class="payment-options">
+                        <label class="pay-option">
+                            <input type="radio" name="paymentMethod" value="PayPal" required checked>
+                            <span><i class="fa-brands fa-paypal"></i> PayPal</span>
+                        </label>
+                        <label class="pay-option">
+                            <input type="radio" name="paymentMethod" value="Banco LA FISE">
+                            <span><i class="fa-solid fa-building-columns"></i> LA FISE</span>
+                        </label>
+                        <label class="pay-option">
+                            <input type="radio" name="paymentMethod" value="BANPRO">
+                            <span><i class="fa-solid fa-university"></i> BANPRO</span>
+                        </label>
+                        <label class="pay-option">
+                            <input type="radio" name="paymentMethod" value="Billetera Móvil">
+                            <span><i class="fa-solid fa-mobile-screen-button"></i> Billetera Móvil</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-order">Enviar Pedido por WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="https://www.facebook.com/profile.php?id=61594494748408" target="_blank" rel="noopener noreferrer" title="Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.tiktok.com/@lopez.blog51" target="_blank" rel="noopener noreferrer" title="TikTok">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <a href="https://wa.me/526634308422" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
