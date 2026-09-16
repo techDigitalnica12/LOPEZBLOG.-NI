@@ -2,7 +2,6 @@
 const EXCHANGE_RATE = 40.00;
 const RECEIVER_WHATSAPP = "50588385491";
 
-// Catálogo completo con opciones oficiales desde el monto más bajo hasta el más alto
 const baseCatalog = [
     {
         id: "ff",
@@ -232,23 +231,27 @@ const baseCatalog = [
 
 let cart = [];
 
-// Elementos DOM
-const productsGrid = document.getElementById('productsGrid');
-const cartBtn = document.getElementById('cartBtn');
-const closeCart = document.getElementById('closeCart');
-const cartSidebar = document.getElementById('cartSidebar');
-const overlay = document.getElementById('overlay');
-const cartCount = document.getElementById('cartCount');
-const cartItemsContainer = document.getElementById('cartItems');
-const cartTotalElement = document.getElementById('cartTotal');
-const checkoutBtn = document.getElementById('checkoutBtn');
-const filterBtns = document.querySelectorAll('.filter-btn');
-
-const checkoutModal = document.getElementById('checkoutModal');
-const closeModal = document.getElementById('closeModal');
-const orderForm = document.getElementById('orderForm');
+// Variables DOM global
+let productsGrid, cartBtn, closeCart, cartSidebar, overlay;
+let cartCount, cartItemsContainer, cartTotalElement, checkoutBtn;
+let filterBtns, checkoutModal, closeModal, orderForm;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar elementos del DOM
+    productsGrid = document.getElementById('productsGrid');
+    cartBtn = document.getElementById('cartBtn');
+    closeCart = document.getElementById('closeCart');
+    cartSidebar = document.getElementById('cartSidebar');
+    overlay = document.getElementById('overlay');
+    cartCount = document.getElementById('cartCount');
+    cartItemsContainer = document.getElementById('cartItems');
+    cartTotalElement = document.getElementById('cartTotal');
+    checkoutBtn = document.getElementById('checkoutBtn');
+    filterBtns = document.querySelectorAll('.filter-btn');
+    checkoutModal = document.getElementById('checkoutModal');
+    closeModal = document.getElementById('closeModal');
+    orderForm = document.getElementById('orderForm');
+
     displayProducts(baseCatalog);
     setupEventListeners();
 });
@@ -269,24 +272,32 @@ function displayProducts(items) {
         card.innerHTML = `
             <div>
                 <div class="product-card-header">
-                    <img src="${product.logo}" alt="${product.name}" class="game-icon" onerror="this.style.display='none'">
+                    <img src="${product.logo}" alt="${product.name}" class="game-icon">
                     <div>
                         <h3>${product.name}</h3>
                     </div>
                 </div>
                 <div class="package-select-group">
                     <label>Selecciona Opción / Cantidad:</label>
-                    <select class="package-dropdown" id="select-${product.id}" onchange="updateCardPrice('${product.id}')">
+                    <select class="package-dropdown" id="select-${product.id}">
                         ${optionsHTML}
                     </select>
                 </div>
             </div>
             <div>
                 <div class="product-price" id="price-${product.id}">C$ ${initialPrice} NIO</div>
-                <button class="add-to-cart" onclick="addToCartFromCard('${product.id}')">Añadir al Carrito</button>
+                <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
             </div>
         `;
         productsGrid.appendChild(card);
+
+        // Event listener seguro para el selector de paquetes
+        const selectElem = card.querySelector(`#select-${product.id}`);
+        selectElem.addEventListener('change', () => updateCardPrice(product.id));
+
+        // Event listener seguro para el botón
+        const btnElem = card.querySelector('.add-to-cart');
+        btnElem.addEventListener('click', () => addToCartFromCard(product.id));
     });
 }
 
@@ -352,11 +363,15 @@ function updateCartUI() {
                 <small>${item.packageName}</small><br>
                 <small style="color:var(--primary)">C$ ${item.nioPrice.toFixed(2)} x ${item.quantity}</small>
             </div>
-            <button onclick="removeFromCart('${item.cartItemId}')" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">
+            <button class="remove-btn" data-cartid="${item.cartItemId}" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">
                 <i class="fa-solid fa-trash"></i>
             </button>
         `;
         cartItemsContainer.appendChild(cartItem);
+
+        // Event listener para eliminar del carrito
+        const removeBtn = cartItem.querySelector('.remove-btn');
+        removeBtn.addEventListener('click', () => removeFromCart(item.cartItemId));
     });
 
     cartTotalElement.textContent = `C$ ${totalNIO.toFixed(2)} NIO`;
@@ -447,4 +462,4 @@ function setupEventListeners() {
         closeModalWindow();
         orderForm.reset();
     });
-}
+        }
